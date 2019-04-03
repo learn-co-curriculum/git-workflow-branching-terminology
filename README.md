@@ -98,7 +98,7 @@ What is the difference between fetch and pull?
   repository since your last sync.
 - `git pull` brings a local tracking branch up-to-date with its remote version,
   while also updating your other remote tracking branches. Pull not only
-  downloads new data&emdash;it also directly integrates it into your current
+  downloads new data&mdash;it also directly integrates it into your current
   working copy files, so we should not have any uncommitted local changes before
   we pull.
 
