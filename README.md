@@ -1,4 +1,4 @@
-# Git: Downloading Remote Branches
+# Git: Working with Remote Branches
 
 ## Learning Goals
 
@@ -9,15 +9,9 @@
 
 ## Introduction
 
-Developers work with Git often. Many developers and organizations use git-based
-systems to keep track of work; it’s pretty important that we understand how to
-work with Git not just on a local computer, but utilizing Git's remote features
-that allow for backups and collaborative work.
-
-At some point we will find ourselves looking at code content from a _remote branch_.
-Git allows  developers to work on the same code, whether solo or simultaneously.
-Sometimes, we will need to access this independent work, or "branch." Being able
-to access remote branches makes this possible.
+Many developers and organizations use Git to keep track of their work; it’s pretty
+important that we understand how to work with Git not just on a local computer,
+but utilizing Git's remote features that allow for backups and collaborative work.
 
 ## Identify Local and Remote Branches
 
@@ -129,8 +123,8 @@ can be done on a new branch.
 
 ## Demonstrate Deleting Branches
 
-Since we've merged our changes master, we can safely delete our local version of
-`new-branch-name`. A branch can be deleted by providing the `-d`/`–D` options
+Since we've merged our changes into master, we can safely delete our local version
+of `new-branch-name`. A branch can be deleted by providing the `-d`/`–D` options
 with the `git branch` command. Before deleting the `new-branch-name`, we should
 be on another branch. Currently, we're still on `master`.
 
