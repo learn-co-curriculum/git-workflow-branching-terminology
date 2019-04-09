@@ -84,7 +84,8 @@ to do so. Your local tracking branch is only as up-to-date as the last time we
 
 What is the difference between fetch and pull?
 
-< gif showing git fetch vs. git pull>
+!["git fetch"](https://curriculum-content.s3.amazonaws.com/prework/git-workflow/git%20fetch.gif)
+!["git pull"](https://curriculum-content.s3.amazonaws.com/prework/git-workflow/git%20pull.gif)
 
 - `git fetch` **only** downloads new data from a remote repository. Fetch will
   never change anything on your local repository. Fetching is what you do when
