@@ -84,8 +84,13 @@ to do so. Your local tracking branch is only as up-to-date as the last time we
 
 What is the difference between fetch and pull?
 
+Here, the `git fetch` command is being used.
 !["git fetch"](https://curriculum-content.s3.amazonaws.com/prework/git-workflow/git%20fetch.gif)
+As you can see with `git fetch`, there's a lot of text displayed in the console after the command
+is submitted.
 !["git pull"](https://curriculum-content.s3.amazonaws.com/prework/git-workflow/git%20pull.gif)
+With `git pull`, we see the text "Fast-forward" and some `+` and `-` symbols. So what is
+happening here?
 
 - `git fetch` **only** downloads new data from a remote repository. Fetch will
   never change anything on your local repository. Fetching is what you do when
@@ -143,7 +148,11 @@ To delete an obsolete local branch (that has been pushed and merged), we type
 deleted, we type `git branch`. It should no longer exist in the list of local
 branches.
 
-<gif of git branch -d, git branch -D and git branch being used>
+With `git branch -d <branch name>` we get a little warning before it's deleted.
+IF it has not been pushed and merged, it will reject the command. With
+`git branch -D <branch name>`, it will force-delete the branch without warnings.
+
+!["git branch -d vs. git branch -D"](https://curriculum-content.s3.amazonaws.com/prework/git-workflow/git%20branch%20delete.gif)
 
 To delete the remote tracking branch, we can use `git push <remote_name (most
 likely origin)> --delete <branch-name>`. To list all remaining remotes, again,
