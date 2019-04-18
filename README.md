@@ -49,9 +49,9 @@ to `origin`, we and other users can track it. That is, we can retrieve those
 contents. So we don't have to haul computers around, we can simply grab the
 code from the remote repository and pick up where we left off!
 
-We can see a list of all remotes with `git remote`. Usually there is only one,
-`origin`, the default. As you get more skilled you might share your code to
-multiple remotes.
+We can see a list of all the remotes' shortnames with `git remote`. Usually 
+there is only one, `origin`, the default. As you get more skilled you might
+share your code to multiple remotes.
 
 We can see a list of all ***remote branches*** &mdash; that is all the branches
 at all the remotes &mdash; that Git knows about with `git branch -a`.
