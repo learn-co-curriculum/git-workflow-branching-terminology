@@ -2,130 +2,172 @@
 
 ## Learning Goals
 
-- Identify local and remote branches
+- Identify local branch
+- Identify remote branches
+- Identify remote tracking branches
+- Identify local tracking branches
 - Demonstrate getting updates from remote
 - Demonstrate merging branches
 - Demonstrate deleting branches
+- Demonstrate updating remotes and merging changes in one step
 
 ## Introduction
 
-Many developers and organizations use Git to keep track of their work; it’s pretty
-important that we understand how to work with Git not just on a local computer,
-but utilizing Git's remote features that allow for backups and collaborative work.
+Many developers and organizations use Git branches to keep track of their work.
+It’s important that we understand how to work with branches on both our local
+machine _as well as_ on a shared resource, like GitHub. Being able to share
+branches means that all the advantages of branch-based development are
+available both for individuals ***and*** organizations.
 
-## Identify Local and Remote Branches
+## Review Terminology
 
 We've gone through the steps of pushing our branches to GitHub, so let's clarify
 some terminology around different types of branches and related commands before
 proceeding.
 
-### Local Branches
+### Identify Local Branch
 
-So far, we've seen examples of local branch operations. The git branch command
-also works on remote branches. A local branch is a branch that only we (the
-local user) can see. It exists only on _your_ computer.
-
-we can see a list of all local branches on your computer with `git branch`.
-
-### Remote Branches
-
-A remote branch is a branch on a remote repository (in most cases origin). When
-we push our local branch `new-branch-name` to `origin`, we and other users can
-track it.
-
-We can see a list of all remotes with `git remote` (it will most likely only be
-`origin`). More importantly, we can see a list of all remote branches of the
-repository with `git branch -a`.
-
-### Remote Tracking Branches
-
-A _remote tracking branch_ is a local copy of a _remote_ branch. When
-`new-branch-name` is pushed to origin using the command, a remote tracking
-branch named `origin/new-branch-name` is created on your machine. This remote
-tracking branch tracks the remote branch `new-branch-name` on origin. we can
-update your remote tracking branch to be in sync, or up-to-date, with the remote
-branch using `git fetch` or `git pull`. We will go more in depth a little later
-on these commands.
-
-### Local Tracking Branches
-
-A _local tracking branch_ is a local branch that is tracking another local
-branch. This is so that we can push/pull commits to/from the other branch. Local
-tracking branches, in most cases, track a remote tracking branch.
-
-When we push a local branch to `origin` using the `git push` command with a `-u`
-option (as shown previously), we set up the local branch `new-branch-name` to
-track the remote tracking branch `origin/new-branch-name`.
-
-Otherwise, we will see this when we try `git push`:
+A **local branch** is a branch that only we (the local user) can see. It exists
+only on _our_ computer. The `git branch` command can show us our local
+branches:
 
 ```bash
-fatal: The current branch new-branch-name has no upstream branch.
-To push the current branch and set the remote as upstream, use
-
-    git push --set-upstream origin myNenew-branch-namewBranch
+$ git branch
+  * master
+  larry-branch
+  michelle-branch
+  curly-branch
 ```
 
-**Note:** This is needed to use `git push` and `git pull` without specifying an
-upstream to push to or pull from.
+### Identify Remote Branches
+
+A **remote branch** is a branch on a remote repository. Remote repositories
+have a short name or nickname. By default, when we `git clone` the remote is
+called `origin`. Many Git commands assume that if you don't specify a repo
+explicitly, you mean `origin`.  When we push our local branch `new-branch-name`
+to `origin`, we and other users can track it. That is, we can retrieve those
+contents. So we don't have to haul computers around, we can simply grab the
+code from the remote repository and pick up where we left off!
+
+We can see a list of all the remotes' shortnames with `git remote`. Usually 
+there is only one, `origin`, the default. As you get more skilled you might
+share your code to multiple remotes.
+
+We can see a list of all ***remote branches*** &mdash; that is all the branches
+at all the remotes &mdash; that Git knows about with `git branch -a`.
+
+### Identify Remote Tracking Branches
+
+A _remote tracking branch_ is a _local_ copy of a _remote_ branch.
+
+When a locally-created branch like `new-branch-name` is pushed to `origin`
+using the `git push -u origin new-branch-name` command, a remote tracking
+branch named `origin/new-branch-name` is created on your machine.
+
+In reverse, when you clone a repository you're given remote tracking branches
+for all the remote branches. Amazingly, by doing so Git allows you to work with
+all the remote branches on all the remotes **offline**. Provided you "freshen"
+your local repository with `git fetch` right before you go into the wilderness,
+you can have _years_ of software development on your laptop (provided you
+explicitly freshen with `git fetch` right before, more on that below!).
+
+This remote tracking branch "follows" or "tracks" the remote branch
+`new-branch-name` on `origin`. We can update your remote tracking branch to be
+in sync, or up-to-date, with the remote branch using `git fetch`.
+
+### Identify Local Tracking Branches
+
+A _local tracking branch_ is a local branch that is tracking another local
+branch. Most often, the local branch is tracking a remote tracking branch that,
+in turn, is tracking a remote branch.
+
+This sounds confusing and this is an area that can be really frustrating with
+Git. Let's suppose  you want to work on a branch that _someone else_ pushed up
+to your remote. After you clone the repo, you want to work on
+`my-friends-branch`.
+
+If you do `git checkout origin/my-friends-branch` Git will:
+
+1. Establish a remote tracking branch called (`remotes/origin/my-friends-branch`) that points to `origin/my-friends-branch`
+2. Establish a local tracking branch (`my-friends-branch`) that tracks (`remotes/origin/my-friends-branch`)
+3. Put you "on" the local tracking branch (`my-friends-branch`)
+
+Because Git can trace how to get from your local tracking branch to the remote
+tracking branch _back_ to the original remote branch, if you make a commit on
+this branch and then type `git push`, Git will send your change to the remote
+repository so that other collaborators can get your change and build on it!
+This is the heart of collaboration in Git.
 
 ## Demonstrate Getting Updates From Remote
 
-Getting updates to branches come into play when there are branches that live on
-a remote repository. These branches can be ones that we are tracking locally, or
-ones that have been created and pushed up from other computers.
+Remember we mentioned going into the wilderness &mdash; no Wi-Fi, no Instagram,
+etc.? If you wanted to cache all the information about all the branches on all
+your remotes, you need to use `git fetch` to update the cache for each remote
+name.
 
-Previously, we mentioned that we can use commands the commands `git fetch` or
-`get pull` to sync local tracking branches with remote tracking branches. On the
-local tracking branch that we want to sync, either of these commands are used to
-download new data from a remote repository. One of these actions must be taken
-to do so. Your local tracking branch is only as up-to-date as the last time we
-**explicitly** downloaded the data from the remote.
+Let's suppose a colleague has created a new branch and pushed it to a location
+that you _both_ use as your `origin` remote. To freshen your local repository
+issue:
 
-What is the difference between fetch and pull?
+```bash
+$ git fetch
+```
+
+Git, yet again, assumes you mean `origin`, but if you had multiple remotes, you
+might provide a name like `my-startup`.
+
+
+```bash
+$ git fetch my-startup
+```
+
+This synchronizes your remote tracking branches with what's going on on the
+remotes. Because of this, your remote tracking branches update. Go into the
+heart of the desert and you will have ***all*** the commits for all the
+branches. You'll have their histories tracing back to the initial commit.
+
+`git fetch` **only** downloads new data from a remote repository. Fetch will
+never change anything on your local branch. Fetching is what you do when you
+want to fetch all the changes that happened in a remote repository since your
+last sync.
+
+> **IMPORTANT**: Your local tracking branch is only as up-to-date as the last
+> time we **explicitly** downloaded the data from the remote.
 
 Here, the `git fetch` command is being used.
+
 !["git fetch"](https://curriculum-content.s3.amazonaws.com/prework/git-workflow/git%20fetch.gif)
-As you can see with `git fetch`, there's a lot of text displayed in the console after the command
-is submitted.
-!["git pull"](https://curriculum-content.s3.amazonaws.com/prework/git-workflow/git%20pull.gif)
-With `git pull`, we see the text "Fast-forward" and some `+` and `-` symbols. So what is
-happening here?
-
-- `git fetch` **only** downloads new data from a remote repository. Fetch will
-  never change anything on your local repository. Fetching is what you do when
-  you want to great for seeing all the changes that happened in a remote
-  repository since your last sync.
-- `git pull` brings a local tracking branch up-to-date with its remote version,
-  while also updating your other remote tracking branches. Pull not only
-  downloads new data&mdash;it also directly integrates it into your current
-  working copy files, so we should not have any uncommitted local changes before
-  we pull.
-
-  **Note:** `git pull` performs a `git fetch` and a `git merge`. We will go into
-  depth of what a merge is next.
 
 ## Demonstrate Merging Branches
 
-Merging allows us to take our branches and integrate them back into a single
-branch. We can use `git merge other-branch-name` to integrate the changes from
-one branch to the branch to the receiving branch (the branch we are currently
-on).
+Merging allows us to take branches and integrate their content into another
+branch. From Git's point of view, it doesn't care whether the branch is local
+or remote or remote-tracking. It finds the difference between the branch you're
+on and the branch you're merging in and weaves them in together.
+
+We can use `git merge other-branch-name` to integrate the changes from one
+branch to the branch to the branch we are currently on. Here are some examples
+
+Assuming we're on `master`:
+
+```bash
+$ git merge other-branch
+$ git merge origin/idea-my-friend-had
+$ git merge my-startup/time-travel-engine
+```
 
 So, if we want to take the changes we created on `new-branch-name` and merge
-them back into the `master` branch now that we've confirmed the changes are safe
-to integrate, we do so by using these commands:
+them back into the `master` branch, now that we've confirmed the changes are
+safe to integrate, we do so by using these commands:
 
 ```bash
 git checkout master # This switches us back to the master branch
 git merge new-branch-name # This integrates our new branch, new-branch-name, and its changes into master
 ```
 
-As long as the `git` histories are still in sync, you will see no _merge
-conflicts_, and now all the changes that were made on the branch
-`new-branch-name` will be integrated into `master`. With work on this branch
-completed and merged, we no longer need it. Any additional work moving forward
-can be done on a new branch.
+Now all the changes that were made on the branch `new-branch-name` are
+integrated into `master`. With work on this branch completed and merged, we no
+longer need it. Any additional work moving forward can be done on a new branch.
 
 ## Demonstrate Deleting Branches
 
@@ -159,15 +201,46 @@ likely origin)> --delete <branch-name>`. To list all remaining remotes, again,
 we can type `git branch -a`. It should no longer exist in the list of remote
 branches.
 
+## Demonstrate Fetching and Updating the Local Branch
+
+You might think that fetching (to update the cache) and then merging (to pull
+the changes into the local tracking branch you're on) is an unnecessarily two-step long process.
+If you're on a local tracking branch, you can issue `git pull`. This will:
+
+1. Run `git fetch` and update all the remote tracking branches
+2. Bring in the changes, if any, from the remote tracking branch to your local
+   tracking branch
+
+The following are equivalent (assume we're on `new-idea` local tracking branch):
+
+```bash
+$ git fetch origin
+$ git merge origin/new-idea
+```
+
+```bash
+$ git pull origin/new-idea
+```
+
+Since we're on a local tracking branch, Git will assume you mean "the branch of
+the same name" at `origin`, if you've been following the code patterns we've
+given to you.
+
+```bash
+$ git pull
+```
+
 ## Conclusion
 
-While branching is a very useful tool for working on your own code, in a
-collaborative environment, it is common for several developers to share and work
-on the same source code. Retrieving branches from remote repositories allows us
-to pick up where we left off, or add onto someone's work. Some developers will
-be fixing bugs, others will be implementing new features, etc. It allows us to
-stay organized, work more freely, collaboratively, and better avoid set backs
-from making hard-to-undo mistakes.
+While branching is a very useful tool for working on your own code and sharing
+code with others.  It is common for several developers to share and work on the
+same source code by referring to the same shared "remote," typically called
+`origin`.
+
+Retrieving branches from remote repositories allows us to pick up where we left
+off, or add onto someone's work. Some developers will be fixing bugs, others
+will be implementing new features, etc. Branch-based development allows us to
+stay organized and work more freely and collaboratively.
 
 ## Resources
 
