@@ -1,4 +1,4 @@
-# Git: Working with Remote Branches
+# Git: Branching Terminology
 
 ## Learning Goals
 
@@ -6,10 +6,6 @@
 - Identify remote branches
 - Identify remote tracking branches
 - Identify local tracking branches
-- Demonstrate getting updates from remote
-- Demonstrate merging branches
-- Demonstrate deleting branches
-- Demonstrate updating remotes and merging changes in one step
 
 ## Introduction
 
@@ -19,7 +15,7 @@ machine _as well as_ on a shared resource, like GitHub. Being able to share
 branches means that all the advantages of branch-based development are
 available both for individuals ***and*** organizations.
 
-## Review Terminology
+## Identify Branching Terminology
 
 We've gone through the steps of pushing our branches to GitHub, so let's clarify
 some terminology around different types of branches and related commands before
@@ -236,15 +232,3 @@ While branching is a very useful tool for working on your own code and sharing
 code with others.  It is common for several developers to share and work on the
 same source code by referring to the same shared "remote," typically called
 `origin`.
-
-Retrieving branches from remote repositories allows us to pick up where we left
-off, or add onto someone's work. Some developers will be fixing bugs, others
-will be implementing new features, etc. Branch-based development allows us to
-stay organized and work more freely and collaboratively.
-
-## Resources
-
-* [What is the difference between ‘git pull’ and ‘git fetch’?](https://www.javacodegeeks.com/2018/09/git-pull-git-fetch.html)
-* [What's the difference between git fetch and git pull?](https://www.git-tower.com/learn/git/faq/difference-between-git-fetch-git-pull)
-* [git fetch](https://www.atlassian.com/git/tutorials/syncing/git-fetch)
-* [Delete a local and a remote GIT branch](https://koukia.ca/delete-a-local-and-a-remote-git-branch-61df0b10d323)
