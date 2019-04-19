@@ -187,7 +187,7 @@ deleted, we type `git branch`. It should no longer exist in the list of local
 branches.
 
 With `git branch -d <branch name>` we get a little warning before it's deleted.
-IF it has not been pushed and merged, it will reject the command. With
+If it has not been pushed and merged, it will reject the command. With
 `git branch -D <branch name>`, it will force-delete the branch without warnings.
 
 !["git branch -d vs. git branch -D"](https://curriculum-content.s3.amazonaws.com/prework/git-workflow/git%20branch%20delete.gif)
@@ -225,6 +225,8 @@ given to you.
 ```bash
 $ git pull
 ```
+
+!["git pull"](https://curriculum-content.s3.amazonaws.com/prework/git-workflow/git%20pull.gif)
 
 ## Conclusion
 
